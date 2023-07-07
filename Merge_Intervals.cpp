@@ -1,25 +1,62 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// brute force TC-O(NLogn)+O(2N)
 vector<vector<int>> merge(vector<vector<int>> &intervals)
 {
     vector<vector<int>> ans;
-    for (int i = 0; i < intervals.size() - 1; i++)
+    int n = intervals.size();
+    sort(intervals.begin(), intervals.end());
+    for (int i = 0; i < n; i++)
     {
-        cout << intervals[i + 1][0] << " " << intervals[i][1] << endl;
-        cout << intervals[i][1] << " " << intervals[i + 1][0] << endl;
-        if (intervals[i + 1][0] < intervals[i][1] && intervals[i + 1][0] > intervals[i][0])
+        int start = intervals[i][0];
+        int end = intervals[i][1];
+        if (!ans.empty() && end <= ans.back()[1])
         {
-            vector<int> temp(2);
-            temp[0] = intervals[i][0], temp[1] = intervals[i + 1][1];
-            ans.push_back(temp);
+            continue;
+        }
+        for (int j = i + 1; j < n; j++)
+        {
+            if (intervals[j][0] <= end)
+            {
+                end = max(end, intervals[j][1]);
+            }
+            else
+            {
+                break;
+            }
+        }
+        ans.push_back({start, end});
+    }
+    return ans;
+}
+
+// optimised method TC-O(NLogN)+O(N) SC-O(N)
+vector<vector<int>> merge2(vector<vector<int>> &intervals)
+{
+    int n = intervals.size();
+    sort(intervals.begin(), intervals.end());
+    vector<vector<int>> ans;
+    for (int i = 0; i < n; i++)
+    {
+        if (ans.empty() || ans.back()[1] < intervals[i][0])
+        {
+            ans.push_back(intervals[i]);
+        }
+        else
+        {
+            ans.back()[1] = max(ans.back()[1], intervals[i][1]);
         }
     }
     return ans;
 }
 int main()
 {
-    vector<vector<int>> arr = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
-    merge(arr);
+    vector<vector<int>> arr = {{1, 3}, {6, 9}};
+    vector<vector<int>> ans = merge2(arr);
+    for (auto i : ans)
+        for (auto j : i)
+            cout << j << " ";
+    cout << endl;
     return 0;
 }
