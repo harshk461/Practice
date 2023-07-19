@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.ejs": "html",
         "ostream": "cpp",
         "*.tcc": "cpp",
         "list": "cpp",
@@ -10,7 +11,14 @@
         "initializer_list": "cpp",
         "regex": "cpp",
         "utility": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "python.formatting.provider": "none"
 }
