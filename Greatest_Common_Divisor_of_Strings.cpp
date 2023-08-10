@@ -3,25 +3,17 @@ using namespace std;
 
 class Solution
 {
-private:
-    string mod(string &a, string &b)
-    {
-        while (a.find(b) == 0)
-            a = a.substr(b.length());
-        return a;
-    }
-
 public:
     string gcdOfStrings(string str1, string str2)
     {
-        if (str1.length() < str2.length())
-            return (str2, str1);
-
-        if (str1.find(str2) == str1.end())
+        if (str1 + str2 != str2 + str1)
             return "";
-        if (str2.empty())
+        else if (str1 == str2)
             return str1;
-        return gcdOfStrings(str2, mod(str1, str2));
+        else if (str1.length() > str2.length())
+            return gcdOfStrings(str1.substr(str2.length(), str2));
+        else
+            return gcdOfStrings(str2.substr(str1.length(), str1));
     }
 };
 

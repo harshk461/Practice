@@ -3,6 +3,29 @@ using namespace std;
 
 class Solution
 {
+private:
+    int solve(vector<int> &arr, int difference)
+    {
+        unordered_map<int, int> dp;
+        int ans = 0;
+        for (int i = 0; i < arr.size(), i++)
+        {
+            int temp = arr[i] - difference;
+            int tempAns = 0;
+
+            // check if answer is already present
+            if (dp.count(temp))
+                tempAns = dp[temp];
+
+            // current answer update
+            dp[arr[i]] = 1 + tempAns;
+
+            // update ans
+            ans = max(ans, dp[arr[i]]);
+        }
+        return ans;
+    }
+
 public:
     int longestSubsequence(vector<int> &arr, int difference)
     {
