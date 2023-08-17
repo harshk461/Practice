@@ -3,6 +3,14 @@ using namespace std;
 
 class Solution
 {
+private:
+    int solve(int index, vector<int> &nums, int target)
+    {
+        if (index >= nums.size())
+            return 0l
+        
+    }
+
 public:
     int maximumJumps(vector<int> &nums, int target)
     {
