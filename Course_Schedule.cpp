@@ -3,65 +3,42 @@ using namespace std;
 
 class Solution
 {
-private:
-    void topoSort(int node, vector<bool> &visited, stack<int> &s, unordered_map<int, list<int>> &adj)
-    {
-        visited[node] = 1;
-
-        for (auto neighbour : adj[node])
-        {
-            if (!visited[neighbour])
-            {
-                topoSort(neighbour, visited, s, adj);
-            }
-        }
-
-        s.push(node);
-    }
-
-    bool checkCycle(stack<int> st,int n)
-    {
-        unordered_map<int, int> pos;
-        int index = 0;
-        vector<int> tsort;
-        while (!st.empty())
-        {
-            pos[st.top()] = index;
-            tsort.push_back(st.top());
-            index++;
-            st.pop();
-        }
-
-        for(int i=0;i<n;i++){
-            
-        }
-    }
-
 public:
     bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
     {
-
-        // create adj matrix
-        unordered_map<int, list<int>> adj;
-
-        for (int i = 0; i < e; i++)
+        vector<vector<int>> adj(numCourses);
+        vector<int> indegree(numCourses);
+        for (auto vec : prerequisites)
         {
-            int u = edges[i][0];
-            int v = edges[i][1];
-
+            int u = vec[0];
+            int v = vec[1];
             adj[u].push_back(v);
+            indegree[u]++;
         }
 
-        // call for each component (dfs calls)
-        vector<bool> visited(v);
-        stack<int> s;
-        for (int i = 0; i < v; i++)
+        queue<int> q;
+        // push all node with 0 indegree
+        for (int i = 0; i < numCourses; i++)
+            if (indegree[i] == 0)
+                q.push(i);
+
+        int nodeVis = 0;
+        while (!q.empty())
         {
-            if (!visited[i])
+            int node = q.front();
+            q.pop();
+            nodeVis++;
+            for (auto nbr : adj[node])
             {
-                topoSort(i, visited, s, adj);
+                // delete edge from neighbour
+                indegree[nbr]--;
+                if (indegree[nbr] == 0)
+                    q.push(nbr);
             }
         }
+
+        // when indegree is more than 0 after delete it then there's a cycle present in the graph
+        return nodeVis == numCourses;
     }
 };
 

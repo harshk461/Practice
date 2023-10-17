@@ -1,29 +1,33 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int maxArea(vector<int> &height)
+class Solution
 {
-    int maxA = INT_MIN;
-    int i = 0, j = height.size() - 1;
-    while (i < height.size() && j > 0)
+public:
+    int maxArea(vector<int> &height)
     {
-        maxA = max((j - i) * min(height[i], height[j]), maxA);
-        if (height[i] < height[j])
+        int ans = 0, i = 0, j = height.size() - 1, res = 0;
+        while (i < j)
         {
-            i++;
+            if (height[i] <= height[j])
+            {
+                res = height[i] * (j - i);
+                i++;
+            }
+            else
+            {
+                res = height[j] * (j - i);
+                j--;
+            }
+            if (res > ans)
+                ans = res;
         }
-        else
-        {
-            j--;
-        }
-        cout << maxA << " ";
+        return ans;
     }
-    return maxA;
-}
+};
 
 int main()
 {
-    vector<int> arr = {1, 8, 6, 2, 5, 4, 8, 3, 7};
-    maxArea(arr);
+
     return 0;
 }
