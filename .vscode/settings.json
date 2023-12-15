@@ -15,7 +15,8 @@
         "deque": "cpp",
         "string": "cpp",
         "vector": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "sstream": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "[python]": {
