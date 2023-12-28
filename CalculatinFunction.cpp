@@ -3,12 +3,22 @@ using namespace std;
 
 int main()
 {
-    long long int n, a;
+    long long int n;
     cin >> n;
     if (n % 2 == 0)
-        a = n / 2;
+    {
+        int even = (n / 2) * (n / 2 + 1);
+        int odd = (n * n) / 4;
+        odd *= -1;
+        cout << even + odd << endl;
+    }
     else
-        a = ((n + 1) / 2) * (-1);
+    {
+        int even = (n / 2) * (n / 2 + 1);
+        int odd = ((n / 2) + 1) * (n / 2 - 1);
+        odd *= -1;
+        cout << even + odd << endl;
+    }
 
-    cout << a << endl;
+    return 0;
 }

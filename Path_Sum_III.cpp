@@ -11,51 +11,15 @@ struct TreeNode
 
 class Solution
 {
-private:
-    bool isOkay(TreeNode *root, int target)
-    {
-        if (root == NULL)
-            return false;
-        if (target == 0)
-            return true;
-        if (target < 0)
-            return false;
-
-        bool ans = false;
-        if (root->left)
-        {
-            ans |= isOkay(root->left, target - root->left->val);
-        }
-
-        if (root->left)
-        {
-            ans |= isOkay(root->right, target - root->right->val);
-        }
-
-        return ans;
-    }
-
     int dfs(TreeNode *root, int target)
     {
-        if (root == NULL)
-            return 0;
-
         int count = 0;
+        if (root->val == target)
+            count++;
         if (root->left)
-        {
-            if (isOkay(root->left, target))
-                count++;
-            else
-                count += dfs(root->left, target);
-        }
-
+            count += dfs(root->left, target - root->val);
         if (root->right)
-        {
-            if (isOkay(root->right, target))
-                count++;
-            else
-                count += dfs(root->right, target);
-        }
+            count += dfs(root->right, target - root->val);
 
         return count;
     }
@@ -63,7 +27,13 @@ private:
 public:
     int pathSum(TreeNode *root, int targetSum)
     {
-        return dfs(root, targetSum);
+        if (root == NULL)
+            return 0;
+        int count = dfs(root, targetSum);
+        count += pathSum(root->left, targetSum);
+        count += pathSum(root->right, targetSum);
+
+        return count;
     }
 };
 
