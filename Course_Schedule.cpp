@@ -42,6 +42,50 @@ public:
     }
 };
 
+class Solution
+{
+public:
+    bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
+    {
+        map<int, vector<int>> adj;
+        vector<int> indegree(numCourses, 0);
+        for (auto it : prerequisites)
+        {
+            int u = it[0];
+            int v = it[1];
+            adj[u].push_back(v);
+        }
+
+        for (int i = 0; i < numCourses; i++)
+        {
+            for (auto it : adj[i])
+                indegree[it]++;
+        }
+
+        queue<int> q;
+
+        vector<int> topo;
+        for (auto it : indegree)
+            if (it == 0)
+                q.push(it);
+
+        while (!q.empty())
+        {
+            int top = q.front();
+            q.pop();
+            topo.push_back(top);
+            for (auto it : adj[top])
+            {
+                indegree[it]--;
+                if (indegree[it] == 0)
+                    q.push(it);
+            }
+        }
+
+        return q.size() == numCourses;
+    }
+};
+
 int main()
 {
 

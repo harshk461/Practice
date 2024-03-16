@@ -3,52 +3,33 @@ using namespace std;
 
 class Solution
 {
-private:
-    int MOD = 1e9 + 7;
-    int solve(vector<int> &arr)
-    {
-        int n = arr.size();
-        int count = 0;
-        unordered_map<int, int> map;
-        for (auto it : arr)
-            map[it]++;
-
-        vector<int> modified;
-        for (auto it : map)
-            modified.push_back(it.first);
-
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                int temp = (nums[i] / nums[j]) % MOD;
-                count += (temp * map[i]) % MOD;
-            }
-        }
-
-        return 0;
-    }
-
 public:
+    int MOD = 1e9 + 7;
     int sumOfFlooredPairs(vector<int> &nums)
     {
-        int count = 0;
-        for (int i = 0; i < nums.size(); i++)
-        {
-            for (int j = 0; j < nums.size(); j++)
-            {
-                count += floor((nums[i] / nums[j]));
-                count %= MOD;
-            }
-        }
-        return solve(nums);
+        sort(nums.begin(), nums.end());
+        set<pair<int, int>> pairs;
+        unordered_map<int, int> freq;
+
+        for (auto it : nums)
+            freq[it]++;
+
+        int n = nums.size();
+        int sum = 0;
+        for (int i = 0; i < n; i++)
+            for (int j = i + 1; j < n; j++)
+                sum = sum % MOD + (nums[j] / nums[i]) % MOD;
+
+        // int sum = 0;
+        // for (auto it : pairs)
+        //     sum = sum % MOD + (it.first / it.second) * (freq[it.first] * freq[it.second]) % MOD;
+
+        return sum + n;
     }
 };
 
 int main()
 {
-    vector<int> arr = {2, 5, 9};
-    Solution s;
-    cout << s.sumOfFlooredPairs(arr);
+
     return 0;
 }
