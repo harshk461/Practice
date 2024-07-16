@@ -16,7 +16,7 @@ public:
             if (nums[i] == 1)
             {
                 if (prev != -1)
-                    ans = ans * static_cast<long>(i - prev) % MOD;
+                    ans= ans * static_cast<long>(i - prev) % MOD;
                 prev = i;
             }
         }

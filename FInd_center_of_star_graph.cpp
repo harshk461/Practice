@@ -3,6 +3,26 @@ using namespace std;
 
 class Solution
 {
+private:
+    int solve(vector<vector<int>> &edges)
+    {
+        int n = edges.size();
+        unordered_map<int, int> degree;
+        for (auto it : edges)
+        {
+            map[it[0]]++;
+            map[it[1]]++;
+        }
+
+        for (auto node : degree)
+        {
+            if (node.second == n)
+                return node.first;
+        }
+
+        return -1;
+    }
+
 public:
     int findCenter(vector<vector<int>> &edges)
     {

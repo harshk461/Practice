@@ -24,12 +24,39 @@ private:
         Reverseinorder(root->left, prefix);
     }
 
+    void inorder(TreeNode *root, vector<int> &arr)
+    {
+        if (root == NULL)
+            return;
+
+        inorder(root->left, arr);
+        arr.push_back(root->val);
+        inorder(root->right, arr);
+    }
+
+    TreeNode *solve(TreeNode *root)
+    {
+        vector<int> arr;
+        inorder(root, arr);
+        int n = arr.size();
+        vector<int> suffix(n, 0);
+
+        suffix[n - 1] = arr[n - 1];
+        for (int i = n - 2; i >= 0; i--)
+            suffix[i] = suffix[i] + arr[i];
+
+        for (auto it : suffix)
+            cout << it << " ";
+
+        return root;
+    }
+
 public:
     TreeNode *bstToGst(TreeNode *root)
     {
         int prefix = 0;
         Reverseinorder(root, prefix);
-        return root;
+        return solve(root);
     }
 };
 

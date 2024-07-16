@@ -1,8 +1,7 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-int main()
+class Solution
 {
-
-    return 0;
-}
+private:
+    vector<string> split() public : string validIPAddress(string queryIP)
+    {
+    }
+};

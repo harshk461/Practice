@@ -1,44 +1,82 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<vector<int>> fourSum(vector<int> &nums, int target)
+typedef long long ll;
+class Solution
 {
-    unordered_map<int, int> map;
-    int n = nums.size();
-    for (auto i : nums)
+private:
+    vector<vector<int>> brute(vector<int> &nums, int target)
     {
-        map[i]++;
-    }
-    vector<vector<int>> ans;
-    set<vector<int>> temp_ans;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = i; j < n; j++)
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+        set<vector<int>> temp_ans;
+        for (int i = 0; i < n - 3; i++)
         {
-            for (int k = j; k < n; k++)
+            for (int j = i + 1; j < n - 2; j++)
             {
-                int d = target - (nums[i] + nums[j] + nums[k]);
-                vector<int> temp(4);
-                --nums[i];
-                --nums[j];
-                --nums[k];
-                if (map[d] > 0 && i!=j && j!=k && i!=k)
+                for (int k = j + 1; k < n - 1; k++)
                 {
-                    temp[0] = nums[i], temp[1] = nums[j], temp[2] = nums[k], temp[3] = d;
-                    temp_ans.push_back(temp);
+                    for (int l = k + 1; l < n; l++)
+                    {
+                        if ((ll)nums[i] + (ll)nums[j] + (ll)nums[k] + (ll)nums[l] == target)
+
+                            temp_ans.insert({nums[i], nums[j], nums[k], nums[l]});
+                    }
                 }
             }
         }
+
+        for (auto it : temp_ans)
+            ans.push_back(it);
+
+        return ans;
     }
 
-    for(auto i:temp_ans){
-        ans.push_back(i);
+    vector<vector<int>> solve(vector<int> &nums, int target)
+    {
+        int n = nums.size();
+        set<vector<int>> st;
+        vector<vector<int>> ans;
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i < n - 3; i++)
+        {
+            for (int j = i + 1; j < n - 2; j++)
+            {
+                ll new_target = (ll)target - (ll)nums[i] - (ll)nums[j];
+                int low = j + 1;
+                int high = n - 1;
+
+                while (low < high)
+                {
+                    if (nums[low] + nums[high] < new_target)
+                        low++;
+
+                    else if (nums[low] + nums[high] > new_target)
+                        high--;
+                    else
+                    {
+                        st.insert({nums[i], nums[j], nums[low], nums[high]});
+                        low++, high--;
+                    }
+                }
+            }
+        }
+
+        for (auto it : st)
+            ans.push_back(it);
+
+        return ans;
     }
-    return ans;
-}
+
+public:
+    vector<vector<int>> fourSum(vector<int> &nums, int target)
+    {
+        return solve(nums, target);
+    }
+};
 
 int main()
 {
-
     return 0;
 }

@@ -47,6 +47,46 @@ public:
     }
 };
 
+class Solution
+{
+public:
+    Node *cloneGraph(Node *node)
+    {
+        if (node == NULL)
+            return NULL;
+
+        unordered_map<Node *, Node *> map;
+        Node *root = new Node(node->val, {});
+
+        map[node] = root;
+        queue<Node *> q;
+        q.push(node);
+
+        while (!q.empty())
+        {
+            auto top = q.front();
+            q.pop();
+
+            for (auto nbr : top->neighbors)
+            {
+                if (map[nbr] == NULL)
+                {
+                    map[nbr] = new Node(nbr->val, {});
+                    q.push(nbr);
+                }
+
+                // at first map[top]=={node}->root
+                // root-> it is the pointer of our new graph
+                // we are pushing map[nbr] because we currently changed its value
+                // after next neighbour comes its value changes
+                map[top]->neighbors.push_back(map[nbr]);
+            }
+        }
+
+        return root;
+    }
+};
+
 int main()
 {
 
