@@ -34,6 +34,27 @@ public:
     }
 };
 
+class Solution
+{
+public:
+    int splitArray(vector<int> &nums, int k)
+    {
+        int curr = 0;
+        for (int i = 0; i < k; i++)
+            curr += nums[i];
+        int ans = curr;
+
+        for (int i = k; i < n; i++)
+        {
+            curr -= nums[i - 1];
+            curr += nums[i];
+            ans = max(ans, curr);
+        }
+
+        return ans;
+    }
+};
+
 int main()
 {
     Solution s;

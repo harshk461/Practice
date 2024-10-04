@@ -38,7 +38,6 @@ public:
     {
         string s, d, temp;
         rootToNode(root, startValue, destValue, temp, s, d);
-
         int index = 0;
         for (int i = 0; i < s.size() && i < d.size(); i++)
         {
