@@ -77,6 +77,7 @@ public:
         return *(freq.begin()->second.begin());
     }
 };
+
 int main()
 {
 

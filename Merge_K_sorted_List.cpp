@@ -67,6 +67,40 @@ public:
     }
 };
 
+typedef pair<int, ListNode *> pi;
+class Solution
+{
+public:
+    ListNode *mergeKLists(vector<ListNode *> &lists)
+    {
+        priority_queue<pi, vector<pi>, greater<pi>> pq;
+        for (auto it : lists)
+        {
+            if (it != NULL)
+                pq.push({it->val, it});
+        }
+
+        ListNode *dummy = new ListNode(-1);
+        ListNode *ans = dummy;
+
+        while (!pq.empty())
+        {
+            auto top = pq.top();
+            pq.pop();
+
+            if (top.second->next)
+            {
+                pq.push({top.second->next->val, top.second->next});
+            }
+
+            dummy->next = top.second;
+            dummy = dummy->next;
+        }
+
+        return ans->next;
+    }
+};
+
 int main()
 {
 
