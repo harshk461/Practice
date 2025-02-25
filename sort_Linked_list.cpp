@@ -43,9 +43,91 @@ ListNode *sortList2(ListNode *head)
     {
         return head;
     }
-
-    
 }
+
+class Solution
+{
+private:
+    ListNode *getMid(ListNode *head)
+    {
+        ListNode *slow = head;
+        ListNode *fast = head;
+
+        while (fast != NULL && fast->next != NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        return slow;
+    }
+
+    ListNode *merge(ListNode *left, ListNode *right)
+    {
+        if (left == NULL)
+            return right;
+        if (right == NULL)
+            return left;
+
+        ListNode *dummy = new ListNode(0);
+        ListNode *temp = dummy;
+
+        while (left != NULL && right != NULL)
+        {
+            if (left->val < right->val)
+            {
+                temp->next = left;
+                temp = left;
+                left = left->next;
+            }
+            else
+            {
+                temp->next = right;
+                temp = right;
+                right = right->next;
+            }
+        }
+
+        while (left != NULL)
+        {
+            temp->next = left;
+            temp = left;
+            left = left->next;
+        }
+
+        while (right != NULL)
+        {
+            temp->next = right;
+            temp = right;
+            right = right->next;
+        }
+
+        return dummy->next;
+    }
+
+    ListNode *mergeSort(ListNode *head)
+    {
+        if (head == NULL || head->next == NULL)
+            return head;
+
+        ListNode *mid = getMid(head);
+        ListNode *l1 = head;
+        ListNode *l2 = mid->next;
+        mid->next = NULL;
+
+        l1 = mergesort(l1);
+        l2 = mergeSort(l2);
+
+        return merge(l1, l2);
+    }
+
+public:
+    ListNode *sortList(ListNode *head)
+    {
+
+        return mergeSort(head);
+    }
+};
 
 int main()
 {
